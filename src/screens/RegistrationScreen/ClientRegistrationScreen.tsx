@@ -8,8 +8,16 @@ import {
 	TextInput,
 } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+
+// MISSING IMAGEPICKER
+// MISSING PERMISSIONS
+
 import { Checkbox } from 'react-native-paper';
+
+// RNPICKERSELECT MISSING IN DONOR
 import RNPickerSelect from 'react-native-picker-select';
+// ---------------------------
+
 import useGlobal from '@state';
 import * as colors from '@util/colors';
 import {
@@ -28,6 +36,22 @@ export default () => {
 	const [ _state, actions ] = useGlobal() as any;
 	const { register } = actions;
 
+	const [ street, setStreet ] = useState('');
+	const [ city, setCity ] = useState('');
+	const [ state, setState ] = useState('WA');
+	const [ zip, setZip ] = useState('');
+	const [ email, setEmail ] = useState('');
+	const [ password, setPassword ] = useState('');
+	const [ termsOfService, setTermsOfService ] = useState(false);
+	
+	// THESE ARE NOT IN DONOR
+	const [ hidePwd, setHidePwd ] = useState(true);
+	const [ transportationMethod, setTransportationMethod ] = useState();
+	const [ gender, setGender ] = useState();
+	const [ ethnicity, setEthnicity ] = useState();
+	// ------------------
+	
+	// THESE ARE NOT IN DONOR
 	const transportationMethods = [
 		'Walk',
 		'Bike',
@@ -55,6 +79,13 @@ export default () => {
 
 	const itemizeList = list => list.map(item => ({ label: item, value: item }));
 
+	const selectPlaceholder = {
+		label: 'Select...',
+		color: 'gray',
+		value: null,
+	};
+	// ----------------------
+
 	const ChevronDown = () => (
 		<View style={styles.iconContainer}>
 			<Icon
@@ -64,28 +95,11 @@ export default () => {
 		</View>
 	);
 
-	const selectPlaceholder = {
-		label: 'Select...',
-		color: 'gray',
-		value: null,
-	};
-
-	const [ hidePwd, setHidePwd ] = useState(true);
-	const [ email, setEmail ] = useState('');
-	const [ password, setPassword ] = useState('');
-	const [ street, setStreet ] = useState('');
-	const [ city, setCity ] = useState('');
-	const [ state, setState ] = useState('WA');
-	const [ zip, setZip ] = useState('');
-	const [ transportationMethod, setTransportationMethod ] = useState();
-	const [ gender, setGender ] = useState();
-	const [ ethnicity, setEthnicity ] = useState();
-	const [ termsOfService, setTermsOfService ] = useState(false);
-
 	const toggleTermsOfService = () => {
 		setTermsOfService(!termsOfService);
 	};
 
+	// THIS FUNCTION IS DIFFERENT IN DONOR
 	const validateAndSubmit = async () => {
 		if (!email.includes('@') || !email.includes('.')) { Alert.alert('Please enter a valid email address.'); return; }
 		if (password.length < 8) { Alert.alert('Please enter a password at least 8 characters long.'); return; }

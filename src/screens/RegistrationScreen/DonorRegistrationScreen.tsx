@@ -8,20 +8,26 @@ import {
 	View,
 } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+
+// IMAGEPICKER AND PERMISSIONS MISSING IN CLIENT
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
+// ---------------------
 import { Checkbox } from 'react-native-paper';
-import {
-	FormTextInput,
-	InputLabel,
-	Header,
-	LinkButton,
-	SpacerInline,
-	Title,
-	Icon,
-} from '@elements';
+
+// MISSING RNPICKERSELECT
+
 import useGlobal from '@state';
 import * as colors from '@util/colors';
+import {
+	Title,
+	LinkButton,
+	FormTextInput,
+	SpacerInline,
+	Header,
+	Icon,
+	InputLabel,
+} from '@elements';
 import styles from './RegistrationScreen.styles';
 
 export default () => {
@@ -29,19 +35,23 @@ export default () => {
 	const [ _state, actions ] = useGlobal() as any;
 	const { register } = actions;
 
+	const [ street, setStreet ] = useState('');
 	const [ city, setCity ] = useState('');
+	const [ state, _setState ] = useState('WA');
+	const [ zip, setZip ] = useState('');
 	const [ email, setEmail ] = useState('');
+	const [ password, setPassword ] = useState('');
+	const [ termsOfService, setTermsOfService ] = useState(false);
+
+	// THESE ARE NOT IN CLIENT
 	const [ image, setImage ] = useState({} as ImagePicker.ImagePickerResult);
 	const [ license, setLicense ] = useState('');
 	const [ organizationName, setOrganizationName ] = useState('');
-	const [ password, setPassword ] = useState('');
-	const [ street, setStreet ] = useState('');
-	const [ state, _setState ] = useState('WA');
-	const [ termsOfService, setTermsOfService ] = useState(false);
-	const [ zip, setZip ] = useState('');
+	// --------------------
 
 	const toggleTermsOfService = () => setTermsOfService(!termsOfService);
 
+	// THIS FUNCTION IS DIFFERENT IN CLIENT
 	const validateAndSubmit = async () => {
 		if (organizationName === '') { Alert.alert("Please add your organization's name."); return; }
 		if (!email.includes('@') || !email.includes('.')) { Alert.alert('Please enter a valid email address.'); return; }
@@ -63,7 +73,7 @@ export default () => {
 			default: Alert.alert("Sorry, that didn't work, please try again later."); console.log(statusCode);
 		}
 	};
-
+	// MISSING IN CLIENT
 	// TODO: add take picture functionality, abstract this out to a util or state.  See https://docs.expo.io/versions/latest/sdk/imagepicker/#imagepickerlaunchcameraasyncoptions
 	const pickImage = async () => {
 		const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -78,7 +88,8 @@ export default () => {
 		});
 		pickedImage.cancelled === false && setImage(pickedImage);
 	};
-
+	// -------------------
+	
 	return (
 		<ScrollView contentContainerStyle={styles.outerContainer}>
 			<View>
